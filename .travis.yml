@@ -1,0 +1,24 @@
+sudo: required
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker build - t mouad/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true mouad/react-test npm test
+
+after_success:
+  - docker build - t mouad/multi-client ./client
+  - docker build - t mouad/multi-nginx ./nginx
+  - docker build - t mouad/multi-server ./server
+  - docker build - t mouad/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them
+  - docker push mouad/multi-client
+  - docker push mouad/multi-nginx
+  - docker push mouad/multi-server
+  - docker push mouad/multi-worker
