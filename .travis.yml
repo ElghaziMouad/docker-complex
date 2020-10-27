@@ -5,20 +5,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t mouad/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t elghazimouad1/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true mouad/react-test npm test
+  - docker run -e CI=true elghazimouad1/react-test npm test
 
 after_success:
-  - docker build -t mouad/multi-client ./client
-  - docker build -t mouad/multi-nginx ./nginx
-  - docker build -t mouad/multi-server ./server
-  - docker build -t mouad/multi-worker ./worker
+  - docker build -t elghazimouad1/multi-client ./client
+  - docker build -t elghazimouad1/multi-nginx ./nginx
+  - docker build -t elghazimouad1/multi-server ./server
+  - docker build -t elghazimouad1/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin docker.io
   # Take those images and push them
-  - docker push mouad/multi-client
-  - docker push mouad/multi-nginx
-  - docker push mouad/multi-server
-  - docker push mouad/multi-worker
+  - docker push elghazimouad1/multi-client
+  - docker push elghazimouad1/multi-nginx
+  - docker push elghazimouad1/multi-server
+  - docker push elghazimouad1/multi-worker
